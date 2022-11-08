@@ -9,7 +9,10 @@ class House(models.Model):
     price_per_night = models.PositiveIntegerField()
     description = models.TextField()
     address = models.CharField(max_length=140)
-    pets_allowed = models.BooleanField(default=True, help_text="Does this gouse allow pets?")
+    pets_allowed = models.BooleanField(
+        default=True,
+        help_text="Does this gouse allow pets?",
+    )
 
     def __str__(self):
         return self.name
