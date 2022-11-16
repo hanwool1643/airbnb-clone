@@ -34,6 +34,8 @@ CUSTOM_APPS = [
     "common.apps.CommonConfig",
     "users.apps.UsersConfig",
     "rooms.apps.RoomsConfig",
+    "experiences.apps.ExperiencesConfig",
+    "categories.apps.CategoriesConfig",
 ]
 
 SYSTEM_APPS = [
