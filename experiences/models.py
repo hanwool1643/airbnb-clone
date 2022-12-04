@@ -20,6 +20,7 @@ class Experience(CommonModel):
     host = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
+        related_name="experiences",
     )
     price = models.PositiveIntegerField()
     address = models.CharField(
@@ -30,12 +31,15 @@ class Experience(CommonModel):
     description = models.TextField()
     perks = models.ManyToManyField(
         "experiences.Perk",
+        related_name="experiences",
     )
     categories = models.ForeignKey(
         "categories.Category",
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
+        related_name="experiences",
+
     )
 
     def __str__(self) -> str:
