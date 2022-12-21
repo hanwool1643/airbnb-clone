@@ -12,15 +12,29 @@ def categories(request):
         return Response(serializer.data)
     elif request.method == "POST":
         serializer = CategorySerializer(data=request.data)
+
         if serializer.is_valid():
-            return Response({"created": True})
+            new_category = serializer.save()
+            return Response(
+                CategorySerializer(new_category).data,
+            )
+
         else:
             return Response(serializer.errors)
-    
 
 
 @api_view()
 def category(request, pk):
-    category = Category.objects.get(pk=pk)
-    serializer = CategorySerializer(category)
-    return Response(serializer.data)
+    # if request.method == "GET":
+        category = Category.objects.get(pk=pk)
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
+    # elif request.method == "PUT":
+    #     serializer = CategorySerializer(
+    #         category,
+    #         data=request.data,
+    #         partial=True,
+    #     )
+    #     if serializer.is_valid():
+    #         updated_category = serializer.save()
+            

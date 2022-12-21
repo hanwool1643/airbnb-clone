@@ -8,7 +8,7 @@ class Category(CommonModel):
 
     class CategoryKindChoices(models.TextChoices):
         ROOMS = "rooms", "Rooms"
-        EXPERIENCES = "experiencs", "Experiences"
+        EXPERIENCES = "experiences", "Experiences"
 
     name = models.CharField(max_length=50)
     kind = models.CharField(
