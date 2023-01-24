@@ -51,6 +51,6 @@ class ReviewAdmin(admin.ModelAdmin):
         StarFilter,
         "rating",
         "user__is_host",
-        "room__categories",
+        "room__category",
         "room__pet_friendly",
     )

@@ -29,7 +29,7 @@ class RoomAdmin(admin.ModelAdmin):
         "pet_friendly",
         "kind",
         "amenities",
-        "categories",
+        "category",
     )
     search_fields = (
         "^name",
