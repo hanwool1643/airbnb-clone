@@ -8,4 +8,7 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = (
             "name",
             "kind",
-        )  # 다른 옵션:  __all__,   exclude = ("name", "kind") or fields = ("name", "kind")
+        )
+
+
+# 다른 옵션:  __all__,   exclude = ("name", "kind") or fields = ("name", "kind")

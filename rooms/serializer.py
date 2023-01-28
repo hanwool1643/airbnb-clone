@@ -13,22 +13,10 @@ class AmenitySerializer(ModelSerializer):
         )
 
 
-class RoomListSerializer(ModelSerializer):
-    class Meta:
-        model = Room
-        fields = (
-            "pk",
-            "name",
-            "country",
-            "city",
-            "price",
-        )
-        depth = 1
-
-
 class RoomDetailSerializer(ModelSerializer):
-
-    owner = TinyUserSerializer(read_only=True)
+    owner = TinyUserSerializer(
+        read_only=True
+    )  # read_only=True: RoomDetailSerializer 사용시 owner 요구하지 않음
     amenities = AmenitySerializer(
         read_only=True,
         many=True,
@@ -40,4 +28,15 @@ class RoomDetailSerializer(ModelSerializer):
     class Meta:
         model = Room
         fields = "__all__"
-        depth = 1
+
+
+class RoomListSerializer(ModelSerializer):
+    class Meta:
+        model = Room
+        fields = (
+            "pk",
+            "name",
+            "country",
+            "city",
+            "price",
+        )
