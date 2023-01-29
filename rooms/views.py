@@ -64,7 +64,11 @@ class AmenityDetail(APIView):
 class Rooms(APIView):
     def get(self, request):
         all_Rooms = Room.objects.all()
-        serializer = RoomListSerializer(all_Rooms, many=True)
+        serializer = RoomListSerializer(
+            all_Rooms,
+            context={"request": request},
+            many=True,
+        )
         return Response(serializer.data)
 
     def post(self, request):
@@ -109,7 +113,10 @@ class RoomDetail(APIView):
 
     def get(self, request, pk):
         room = self.get_object(pk)
-        serializer = RoomDetailSerializer(room)
+        serializer = RoomDetailSerializer(
+            room,
+            context={"request": request},
+        )
         return Response(serializer.data)
 
     def put(self, request, pk):
@@ -167,45 +174,6 @@ class RoomDetail(APIView):
                         raise ParseError("Amenity not found")
         else:
             return Response(serializer.errors)
-
-    # def put(self, request, pk):
-    #     room = self.get_object(pk)
-    #     if not request.user.is_authenticated:
-    #         raise NotAuthenticated
-    #     if room.owner != request.user:
-    #         raise PermissionDenied
-    #     serializer = RoomDetailSerializer(
-    #         room,
-    #         request.data,
-    #         partial=True,
-    #     )
-
-    #     if serializer.is_valid():
-    #         category_pk = request.data.get("category")
-
-    #         try:
-    #             if category_pk:
-    #                 category = Category.objects.get(pk=category_pk)
-    #                 if category.kind == Category.CategoryKindChoices.EXPERIENCES:
-    #                     raise ParseError("Category kind should be 'rooms'")
-    #         except Category.DoesNotExist:
-    #             raise ParseError("Category not found")
-
-    #         try:
-    #             with transaction.atomic():
-    #                 room = serializer.save(
-    #                     owner=request.user,
-    #                     category=category,
-    #                 )
-    #                 amenities = request.data.get("amenities")
-    #                 if amenities:
-    #                     for amenity_pk in amenities:
-    #                         amenity = Amenity.objects.get(pk=amenity_pk)
-    #                         room.amenities.add(amenity)
-    #                 serializer = RoomDetailSerializer(room)
-    #                 return Response(serializer.data)
-    #         except Exception:
-    #             raise ParseError("Amenity not found")
 
     def delete(self, request, pk):
         room = self.get_object(pk)
