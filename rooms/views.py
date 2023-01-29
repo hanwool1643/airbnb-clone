@@ -3,7 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Amenity, Room
 from .serializer import AmenitySerializer, RoomListSerializer, RoomDetailSerializer
-from rest_framework.exceptions import NotFound, NotAuthenticated, ParseError
+from rest_framework.exceptions import (
+    NotFound,
+    NotAuthenticated,
+    ParseError,
+    PermissionDenied,
+)
 from rest_framework.status import HTTP_204_NO_CONTENT
 from categories.models import Category
 
@@ -40,7 +45,7 @@ class AmenityDetail(APIView):
     def put(self, request, pk):
         serializer = AmenitySerializer(
             self.get_object(pk),
-            request.data,
+            data=request.data,
             partial=True,
         )
 
@@ -106,3 +111,12 @@ class RoomDetail(APIView):
         room = self.get_object(pk)
         serializer = RoomDetailSerializer(room)
         return Response(serializer.data)
+
+    def delete(self, request, pk):
+        room = self.get_object(pk)
+        if not request.user.is_authenticated:
+            raise NotAuthenticated
+        if room.owner != request.user:
+            raise PermissionDenied
+        room.delete()
+        return Response(HTTP_204_NO_CONTENT)
