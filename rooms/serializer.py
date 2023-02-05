@@ -29,10 +29,6 @@ class RoomDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer(
         read_only=True,
     )
-    reviews = ReviewSerializer(
-        many=True,
-        read_only=True,
-    )
 
     class Meta:
         model = Room
